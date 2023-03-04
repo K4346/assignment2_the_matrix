@@ -54,7 +54,8 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
 }
 
 operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
-    require(this.width == other.height) {"IllegalArgumentException"}
+    if (this.width != other.height) throw IllegalArgumentException("")
+    
     val result = createMatrix(height = this.height, width = other.width, e = 0)
     for (i in 0 until this.height) {
         for (j in 0 until other.width) {

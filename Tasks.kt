@@ -94,33 +94,17 @@ fun findHoles(matrix: Matrix<Int>): Holes {
     return Holes(rows, columns)
 }
 
-
 fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
-    // Проверяем все смещения ключа по вертикали/горизонтали
-    for (i in 0..lock.height - key.height) {
-        for (j in 0..lock.width - key.width) {
-            var canOpen = true
-   
-            for (k in 0 until key.height) {
-                for (l in 0 until key.width) {
-                    val lockValue = lock[i + k, j + l]
-                    val keyValue = key[k, l]
-                    if (lockValue == 1 && keyValue == 0) {
-                        canOpen = false
-                        break
+ for (i in 0..lock.height - key.height)
+        for (j in 0..lock.width - key.width){
+            var flagAcces = true
+            lam@ for (ii in 0 until key.height)
+                for (jj in 0 until key.width)
+                    if (key[ii,jj] == lock[i+ii,j+jj]) {
+                        flagAcces = false
+                        break@lam
                     }
-                    if (lockValue == 0 && keyValue == 1) {
-                        canOpen = false
-                        break
-                    }
-                }
-                if (!canOpen) break
-            }
-            if (canOpen) {
-                return Triple(true, i, j)
-            }
+            if (flagAcces) return Triple(true, i, j)
         }
-    }
-    
-    return Triple(false, 0, 0)
+    return Triple(false,0,0)
 }
